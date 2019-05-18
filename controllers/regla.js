@@ -41,7 +41,7 @@ module.exports = {
                         {message:'Regla no encontrado'}
                     );
                 }
-                return Reglaregla.destroy()
+                return regla.destroy()
                     .then( () => res.status(202).send())
                     .catch( (error) => res.status(400).send(error) )
             });
