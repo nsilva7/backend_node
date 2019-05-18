@@ -4,6 +4,7 @@ const clienteController = require('../controllers').clienteController;
 const canjeController = require('../controllers').canjeController;
 const reglaController = require('../controllers').reglaController;
 const vencimientoController = require('../controllers').vencimientoController;
+const bolsaController = require('../controllers').bolsaController;
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -33,6 +34,12 @@ router.get('/api/vencimiento',vencimientoController.list);
 router.get('/api/vencimiento/:id',vencimientoController.getById);
 router.post('/api/vencimiento',vencimientoController.create);
 router.delete('/api/vencimiento/:id',vencimientoController.delete);
+
+/* Bolsas */
+router.get('/api/bolsa',bolsaController.list);
+router.get('/api/bolsa/:id',bolsaController.getById);
+router.post('/api/bolsa',bolsaController.create);
+router.delete('/api/bolsa/:id',bolsaController.delete);
 
 
 module.exports = router;
