@@ -18,7 +18,7 @@ module.exports = {
         onDelete: 'SET NULL',
       },
       puntaje_utilizado: {
-        type:Sequelize.DATEONLY,
+        type:Sequelize.INTEGER,
         allowNull:false
       },
       id_bolsa : {

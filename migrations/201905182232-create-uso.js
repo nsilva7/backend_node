@@ -25,10 +25,15 @@ module.exports = {
         type:Sequelize.DATEONLY,
         allowNull:false
       },
-      concepto: {
-        type: Sequelize.STRING,
-        allowNull:false
-      }
+      id_canje : {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Canjes',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',
+      },
     });
   },
   down: (queryInterface, Sequelize) => {

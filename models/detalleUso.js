@@ -1,7 +1,7 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const DetalleUso = sequelize.define('DetalleUso', {
-    fecha_asignacion: {type:DataTypes.DATEONLY,allowNull:false},
+    puntaje_utilizado: {type:DataTypes.INTEGER,allowNull:false},
   }, {tableName:'DetallesUsos',timestamps:false});
 
   DetalleUso.associate = function(models) {
