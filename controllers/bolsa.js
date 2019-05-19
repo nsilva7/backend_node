@@ -11,6 +11,24 @@ module.exports = {
                 (error) => res.status(400).send(error)
             )
     },
+    getByCliente (req,res) {
+      return Bolsa.findAll({
+          where: {
+          id_cliente: req.params.id_cliente,
+        }
+      })
+            .then((bolsa) => {
+                if (!bolsa) {
+                    return res.status(404).send(
+                        {message:'bolsa de puntos no encontrada'}
+                        );
+                }
+                return res.status(200).send(bolsa);
+            })
+            .catch((error) =>
+                res.status(400).send(error)
+            );
+    },
     getById (req,res) {
         return Bolsa.findByPk(req.params.id,{})
             .then((bolsa) => {
@@ -27,7 +45,6 @@ module.exports = {
     },
     create(req,res) {
         Cliente.findByPk(req.body.id_cliente,{}).then(function (cliente) {
-                console.log(req.body)
                 return Bolsa.create({
                     fecha_asignacion: req.body.fecha_asignacion,
                     fecha_caducidad: req.body.fecha_caducidad,
@@ -35,7 +52,7 @@ module.exports = {
                     puntaje_utilizado: req.body.puntaje_utilizado,
                     saldo: req.body.saldo,
                     monto_operacion: req.body.monto_operacion ,
-                    id_cliente: 50,
+                    id_cliente: req.body.id_cliente,
                 }).then ((bolsa) => res.status(200).send({message:"Bolsa de puntos creada con exito",bolsa:bolsa}))
             .catch((error) => res.status(400).send(error))
             }).catch((error) => res.status(400).send({message:"No se encontro el cliente",error:error}))

@@ -5,7 +5,7 @@ const canjeController = require('../controllers').canjeController;
 const reglaController = require('../controllers').reglaController;
 const vencimientoController = require('../controllers').vencimientoController;
 const bolsaController = require('../controllers').bolsaController;
-
+const usoController = require('../controllers').usoController;
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
@@ -38,8 +38,13 @@ router.delete('/api/vencimiento/:id',vencimientoController.delete);
 /* Bolsas */
 router.get('/api/bolsa',bolsaController.list);
 router.get('/api/bolsa/:id',bolsaController.getById);
+router.get('/api/bolsa/cliente/:id_cliente',bolsaController.getByCliente);
 router.post('/api/bolsa',bolsaController.create);
 router.delete('/api/bolsa/:id',bolsaController.delete);
+
+/* Uso de Puntos */
+router.get('/api/uso/:id_cliente',usoController.list);
+router.post('/api/uso',usoController.create);
 
 
 module.exports = router;
