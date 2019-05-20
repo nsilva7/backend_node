@@ -44,7 +44,7 @@ router.post('/api/bolsa/cargar',bolsaController.cargar);
 router.delete('/api/bolsa/:id',bolsaController.delete);
 
 /* Uso de Puntos */
-router.get('/api/uso/:id_cliente/',usoController.list);
+router.get('/api/uso/',usoController.list);
 router.post('/api/uso',usoController.create);
 
 

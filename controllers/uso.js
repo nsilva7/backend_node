@@ -4,19 +4,34 @@ const Bolsa = require('../models').Bolsa;
 const Cliente = require('../models').Cliente;
 const Canje = require('../models').Canje;
 const models = require('../models');
-
+const Sequelize = require('sequelize');
 module.exports = {
     list(req,res) {
+        const Op = Sequelize.Op
+        let query = {}
+        if(req.query.canje)
+          query.id_canje = req.query.canje
+        if(req.query.cliente)
+          query.id_cliente = req.query.cliente
+        if(req.query.fecha_desde && req.query.fecha_hasta){
+          query.fecha = {[Op.between]: [req.query.fecha_desde, req.query.fecha_hasta]}
+        }else {
+          if(req.query.fecha_desde)
+            query.fecha = {[Op.gte]: req.query.fecha_desde}
+          if(req.query.fecha_hasta)
+            query.fecha = {[Op.lte]: req.query.fecha_hasta}
+        }
+
+
+        console.log(query)
         return Uso.findAll({
-            where: {
-            id_cliente: req.params.id_cliente,
-          }
+            where: query
         })
         .then(
             (usos) => res.status(200).send(usos)
         )
         .catch(
-            (error) => res.status(400).send(error)
+            (error) => {console.log(error); res.status(400).send(error)}
         )
     },
     create(req,res) {
