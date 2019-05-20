@@ -25,6 +25,7 @@ router.delete('/api/canje/:id',canjeController.delete);
 
 /* Reglas */
 router.get('/api/regla',reglaController.list);
+router.get('/api/regla/consultar',reglaController.consultar);
 router.get('/api/regla/:id',reglaController.getById);
 router.post('/api/regla',reglaController.create);
 router.delete('/api/regla/:id',reglaController.delete);

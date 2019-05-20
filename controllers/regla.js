@@ -1,6 +1,7 @@
 const Regla = require('../models').Regla;
 const models = require('../models');
-
+const Sequelize = require('sequelize');
+const op = Sequelize.Op;
 module.exports = {
     list(req,res) {
         return Regla.findAll()
@@ -46,4 +47,14 @@ module.exports = {
                     .catch( (error) => res.status(400).send(error) )
             });
     },
+
+    consultar(req, res){
+      Regla.findOne({ where: {
+         limite_inferior: {[op.lte]: req.query.monto },
+         limite_superior: {[op.or]:[null,{[op.gte]:req.query.monto}]}}})
+         .then(regla  => {
+            let puntos = Math.round(req.query.monto / regla.monto)
+            return res.status(202).send(req.query.monto + " equivalen a " + puntos + " puntos");
+         }).catch( (error) => res.status(400).send(error))
+    }
 }
