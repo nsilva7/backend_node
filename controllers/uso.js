@@ -5,6 +5,7 @@ const Cliente = require('../models').Cliente;
 const Canje = require('../models').Canje;
 const models = require('../models');
 const Sequelize = require('sequelize');
+const nodemailer = require("nodemailer");
 module.exports = {
     list(req,res) {
         const Op = Sequelize.Op
@@ -21,9 +22,6 @@ module.exports = {
           if(req.query.fecha_hasta)
             query.fecha = {[Op.lte]: req.query.fecha_hasta}
         }
-
-
-        console.log(query)
         return Uso.findAll({
             where: query
         })
@@ -37,25 +35,25 @@ module.exports = {
     create(req,res) {
       return Cliente.findByPk(req.body.id_cliente,{}).then(function (cliente) {
         return Canje.findByPk(req.body.id_canje,{}).then(function (canje){
+          const Op = Sequelize.Op
+          let query = {}
+          query.id_cliente = cliente.id
+          query.fecha_caducidad = {[Op.gte]: new Date().toISOString().slice(0,10)}
           return Bolsa.findAll({
-            where: {
-              id_cliente: cliente.id,
-            },
+            where: query,
             order: [['fecha_asignacion', 'ASC']]
           }).then(function (bolsas) {
-            console.log(bolsas[0].id)
-            if(bolsas.reduce(getSum, 0) < req.body.puntaje_utilizado)
+            if(bolsas.reduce(getSum, 0) < canje.puntos_requeridos)
               return res.status(200).send({message:"No tiene suficientes puntos"})
             return Uso.create({
                 id_cliente: req.body.id_cliente,
-                puntaje_utilizado: req.body.puntaje_utilizado,
-                fecha: req.body.fecha,
+                puntaje_utilizado: canje.puntos_requeridos,
+                fecha: new Date().toISOString().slice(0,10),
                 id_canje: canje.id,
               }).then(function (uso){
-                let puntaje = req.body.puntaje_utilizado;
+                let puntaje = canje.puntos_requeridos;
                 let utilizado = 0;
                 for(let bolsa of bolsas){
-                  console.log(bolsa.id)
                   if(bolsa.saldo > puntaje){
                     utilizado = puntaje
                     bolsa.saldo -= puntaje;
@@ -75,14 +73,41 @@ module.exports = {
                   if(!puntaje)
                     break;
                 }
+                sendEmail(cliente, canje)
                 return res.status(200).send({message:"Puntos usados correctamente",uso:uso})
               }).catch((error) => res.status(400).send(error))
             }).catch((error) => res.status(400).send({message: 'No se encontron bolsas', error:error}))
-          }).catch((error) => res.status(400).send({message: 'No se encontró el canje', error:error}))
+          }).catch((error) => {console.log(error); res.status(400).send({message: 'No se encontró el canje', error:error})})
         }).catch((error) => res.status(400).send({message: 'No se encontró el Cliente', error:error}))
     },
 }
 
 function getSum(total, bolsa){
   return total + bolsa.saldo
+}
+
+async function sendEmail(cliente, canje){
+  var transporter = nodemailer.createTransport({
+       service: 'Gmail',
+       auth: {
+           user: 'josedacak@gmail.com',
+           pass: 'qraeisdmhhopwtlk'
+       }
+  });
+  let today =  new Date().toISOString().slice(0,10)
+  var mailOptions = {
+       from: 'Administración',
+       to: cliente.email,
+       subject: 'Confirmación de canje',
+       text: 'En la fecha ' + today + ' se canjeó "' + canje.descripcion + '" por valor de ' + canje.puntos_requeridos + ' puntos.'
+  };
+
+  transporter.sendMail(mailOptions, function(error, info){
+      console.log('sendMail')
+      if (error){
+        console.log(error);
+      } else {
+        console.log("Email sent");
+      }
+  });
 }
