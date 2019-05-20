@@ -40,6 +40,7 @@ router.get('/api/bolsa',bolsaController.list);
 router.get('/api/bolsa/:id',bolsaController.getById);
 router.get('/api/bolsa/cliente/:id_cliente',bolsaController.getByCliente);
 router.post('/api/bolsa',bolsaController.create);
+router.post('/api/bolsa/cargar',bolsaController.cargar);
 router.delete('/api/bolsa/:id',bolsaController.delete);
 
 /* Uso de Puntos */
