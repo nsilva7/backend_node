@@ -5,15 +5,41 @@ const Vencimiento = require('../models').Vencimiento;
 const models = require('../models');
 const Sequelize = require('sequelize');
 const op = Sequelize.Op;
-
+var sequelize = new Sequelize('backend_node', 'admin', 'admin',{dialect:"postgres"});
 module.exports = {
     list(req,res) {
-        return Bolsa.findAll()
+        let query = {}
+        
+        if(req.query.vigencia){
+            if(req.query.vigencia == "vigentes")
+                query.vigencia = `"Bolsa"."fecha_caducidad" >= '${new Date().toISOString().slice(0,10)}'` 
+            else if(req.query.vigencia == "no_vigentes")
+                query.vigencia = `"Bolsa"."fecha_caducidad" < '${new Date().toISOString().slice(0,10)}'`
+        }
+
+        if(req.query.cliente)
+          query.cliente = `"Bolsa"."id_cliente" = '${req.query.cliente}'`
+        
+        if(req.query.dias) {
+            let today = new Date().toISOString().slice(0,10);
+            let caducidad = new Date(today);
+            caducidad.setDate(caducidad.getDate() + Number(req.query.dias));
+            query.dias = `"Bolsa"."fecha_caducidad" = '${caducidad.toISOString().slice(0,10)}'`
+        }
+        
+        sequelize.query(`SELECT "id", "fecha_asignacion", "fecha_caducidad", "puntaje_asignado", "puntaje_utilizado", "saldo", "monto_operacion", "id_cliente" FROM "Bolsas" AS "Bolsa" WHERE ${req.query.vigencia?query.vigencia:true} AND ${req.query.dias?query.dias:true} AND ${req.query.cliente?query.cliente:true}`).then(([results, metadata]) => {
+          return res.status(200).send(results);
+          }).catch((error) =>
+          res.status(400).send(error)
+      );
+        /*return Bolsa.findAll({
+            where: query
+        })
             .then(
                 (bolsas) => res.status(200).send(bolsas))
             .catch(
                 (error) => res.status(400).send(error)
-            )
+            )*/
     },
     getByCliente (req,res) {
       return Bolsa.findAll({
@@ -73,10 +99,9 @@ module.exports = {
                         fin_validez: {[op.gte]: today}}}).then(vencimiento => {
                             let caducidad = new Date(today);
                             caducidad.setDate(caducidad.getDate() + vencimiento.dias_validez);
-                            console.log(Math.round(req.body.monto_operacion/regla.monto),req.body.monto_operacion,regla.monto)
                             return Bolsa.create({
                                 fecha_asignacion: today,
-                                fecha_caducidad: caducidad.toISOString().slice(0,10),
+                                fecha_caducidad: caducidad.toISOString().slice(0,10) > vencimiento.fin_validez ? vencimiento.fin_validez:caducidad.toISOString().slice(0,10),
                                 puntaje_asignado: Math.round(req.body.monto_operacion/regla.monto),
                                 puntaje_utilizado: 0,
                                 saldo: Math.round(req.body.monto_operacion/regla.monto),
