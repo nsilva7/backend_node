@@ -44,14 +44,14 @@ router.get('/bolsas', function(req, res, next) {
 /* Clientes */
 router.get('/api/cliente',clienteController.list);
 router.get('/api/cliente/:id',clienteController.getById);
-router.put('/api/cliente',clienteController.update);
+router.put('/api/cliente/:id',clienteController.update);
 router.post('/api/cliente',clienteController.create);
 router.delete('/api/cliente/:id',clienteController.delete);
 
 /* Canjes */
 router.get('/api/canje',canjeController.list);
 router.get('/api/canje/:id',canjeController.getById);
-router.put('/api/canje',canjeController.update);
+router.put('/api/canje/:id',canjeController.update);
 router.post('/api/canje',canjeController.create);
 router.delete('/api/canje/:id',canjeController.delete);
 
@@ -59,7 +59,7 @@ router.delete('/api/canje/:id',canjeController.delete);
 router.get('/api/regla',reglaController.list);
 router.get('/api/regla/consultar',reglaController.consultar);
 router.get('/api/regla/:id',reglaController.getById);
-router.put('/api/regla',reglaController.update);
+router.put('/api/regla/:id',reglaController.update);
 router.post('/api/regla',reglaController.create);
 router.delete('/api/regla/:id',reglaController.delete);
 

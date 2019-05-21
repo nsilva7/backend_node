@@ -53,7 +53,7 @@ module.exports = {
     },
     
     update (req, res) {
-         return Cliente.findByPk(req.body.id,{})
+         return Cliente.findByPk(req.params.id,{})
             .then((cliente) => {
                 if (!cliente) {
                     return res.status(404).send(
@@ -61,24 +61,24 @@ module.exports = {
                         );
                 }
                 if(req.body.nombre)
-                    cliente.nombre = req.params.nombre;
+                    cliente.nombre = req.body.nombre;
                 if(req.body.apellido)
-                    cliente.apellido = req.params.apellido;
+                    cliente.apellido = req.body.apellido;
                 if(req.body.nro_documento)
-                    cliente.nro_documento = req.params.nro_documento;
+                    cliente.nro_documento = req.body.nro_documento;
                 if(req.body.tipo_documento)
-                    cliente.tipo_documento = req.params.tipo_documento;
+                    cliente.tipo_documento = req.body.tipo_documento;
                 if(req.body.nacionalidad)
-                    cliente.nacionalidad = req.params.nacionalidad;
+                    cliente.nacionalidad = req.body.nacionalidad;
                 if(req.body.email)
-                    cliente.email = req.params.email;
+                    cliente.email = req.body.email;
                 if(req.body.telefono)
-                    cliente.telefono = req.params.telefono;
+                    cliente.telefono = req.body.telefono;
                 if(req.body.fecha_nacimiento)
-                    cliente.fecha_nacimiento = req.params.fecha_nacimiento;
+                    cliente.fecha_nacimiento = req.body.fecha_nacimiento;
              
                 cliente.save();
-                return res.status(200).send({'cliente': 'Cliente actualizado'});
+                return res.status(200).send({mensaje: 'Cliente actualizado con exito'});
             })
             .catch((error) =>
                 res.status(400).send(error)

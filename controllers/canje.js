@@ -47,18 +47,18 @@ module.exports = {
     },
     
     update(req,res) {
-       return Canje.findByPk(req.body.id,{})
+       return Canje.findByPk(req.params.id,{})
           .then((canje) => {
               if (!canje) 
                   return res.status(404).send({message:'Canje no encontrado'});
               
                if(req.body.descripcion)
-                    canje.descripcion = req.params.descripcion;
+                    canje.descripcion = req.body.descripcion;
                 if(req.body.puntos_requeridos)
-                    canje.puntos_requeridos = req.params.puntos_requeridos;
+                    canje.puntos_requeridos = req.body.puntos_requeridos;
              
                 canje.save();
-              return res.status(200).send('Canje actualizado');
+              return res.status(200).send({message:'Canje actuslizado con exito'});
           })
           .catch((error) =>
               res.status(400).send(error)
