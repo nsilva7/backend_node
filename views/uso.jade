@@ -5,25 +5,27 @@ block content
     h1 Uso de Puntos
     .row
       .col-2
-        label Buscar:
+        label Concepto:
         select(class="form-control margin-bottom" id="concepto")
           option(value="", selected) --
           each canje in canjes
             option(value=canje.id) #{canje.descripcion}
       .col-2
-        label(for="id_cliente") Cliente
-          select(class="form-control margin-bottom" id="cliente")
-            option(value="0", selected) --
-            each cliente in clientes
-              option(value=cliente.id) #{cliente.nombre}
-      .col-2
+        label Cliente:
+        select(class="form-control margin-bottom" id="cliente")
+          option(value="0", selected) --
+          each cliente in clientes
+            option(value=cliente.id) #{cliente.nombre}
+      .col-3
         label Desde:
         input(id="desde",type="date",class="form-control")
-      .col-2
+      .col-3
         label Hasta:
-        input(id="desde",type="date",class="form-control")
+        input(id="hasta",type="date",class="form-control")
       .col-2
-        button(id="btn-consultar", class="btn btn-default" style="position:absolute;bottom:0") Consultar
+        button(id="btn-consultar", class="btn btn-default pull-right" style="margin-top: 25px;") Consultar
     br
-    table(id="tabla-bolsas")
-  script(src="/javascripts/bolsas.js")
+    input(type="hidden" value="0" id="cliente")
+    input(type="hidden" value="0" id="canje")
+    table(id="tabla-usos")
+  script(src="/javascripts/uso.js")

@@ -1,17 +1,13 @@
 $(document).ready(function(){
     var dataSet = []
-    var datatable = $('#tabla-uso').DataTable( {
+    var datatable = $('#tabla-usos').DataTable( {
         data: dataSet,
         searching: false,
         columns: [
-            { title: "Id" },
-            { title: "Asignación" },
-            { title: "Caducidad" },
-            { title: "Puntaje Asig." },
-            { title: "Puntaje Util." },
-            { title: "Saldo" },
-            { title: "Monto Op." },
-            { title: "Cliente" }
+            { title: "puntaje_utilizado" },
+            { title: "fecha" },
+            { title: "id_canje" },
+            { title: "id_cliente" },
         ],
         language: {
             "sProcessing":     "Procesando...",
@@ -38,18 +34,31 @@ $(document).ready(function(){
             }
         }
     } );
+    $("#cliente-select").on('change', function(){
+      if($(this).val() == 0)
+        $("#cliente").val('')
+      else
+        $("#cliente").val($(this).val())
+    })
+    $("#concepto").on('change', function(){
+      if($(this).val() == 0)
+        $("#canje").val('')
+      else
+        $("#canje").val($(this).val())
+    })
     $("#btn-consultar").click(function() {
         var cliente = $("#cliente").val();
-        var vigencia = $("#vigencia").val();
-        var dias = $("#dias").val();
-        var url = "http://localhost:3000/api/bolsa?"+ (cliente?("cliente="+cliente):"")+ ((vigencia && vigencia != "todos")?("&vigencia="+vigencia):"") + (dias?("&dias="+dias):"");
+        var fecha_desde = $("#desde").val();
+        var fecha_hasta = $("#hasta").val();
+        var canje = $("#canje").val();
+        var url = "http://localhost:3000/api/uso?"+ (cliente != 0?("cliente="+cliente):"")+ (canje != 0?("&canje="+canje):"") + (fecha_desde?("&fecha_desde="+fecha_desde):"") + (fecha_hasta?("&fecha_hasta="+fecha_hasta):"");
         console.log(url)
         $.ajax({
             url: url,
             success: function(data) {
                 dataSet = []
                for(let info of data) {
-                   let row = [info.id,info.fecha_asignacion,info.fecha_caducidad,info.puntaje_asignado,info.puntaje_utilizado,info.saldo,info.monto_operacion,info.id_cliente]
+                   let row = [info.puntaje_utilizado,info.fecha,info.id_canje,info.id_cliente]
                    dataSet.push(row);
                }
                datatable.clear();
@@ -59,5 +68,7 @@ $(document).ready(function(){
           });
 
     })
-    
+
+    $("#btn-consultar").click()
+
 })
