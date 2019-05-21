@@ -51,4 +51,37 @@ module.exports = {
                     .catch( (error) => res.status(400).send(error) )
             });
     },
+    
+    update (req, res) {
+         return Cliente.findByPk(req.params.id,{})
+            .then((cliente) => {
+                if (!cliente) {
+                    return res.status(404).send(
+                        {message:'Cliente no encontrado'}
+                        );
+                }
+                if(req.params.nombre)
+                    cliente.nombre = req.params.nombre;
+                if(req.params.apellido)
+                    cliente.apellido = req.params.apellido;
+                if(req.params.nro_documento)
+                    cliente.nro_documento = req.params.nro_documento;
+                if(req.params.tipo_documento)
+                    cliente.tipo_documento = req.params.tipo_documento;
+                if(req.params.nacionalidad)
+                    cliente.nacionalidad = req.params.nacionalidad;
+                if(req.params.email)
+                    cliente.email = req.params.email;
+                if(req.params.telefono)
+                    cliente.telefono = req.params.telefono;
+                if(req.params.fecha_nacimiento)
+                    cliente.fecha_nacimiento = req.params.fecha_nacimiento;
+             
+                cliente.save();
+                return res.status(200).send({'cliente': 'Cliente actualizado'});
+            })
+            .catch((error) =>
+                res.status(400).send(error)
+            );
+    }
 }
