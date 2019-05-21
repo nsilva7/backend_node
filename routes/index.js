@@ -23,6 +23,11 @@ router.get('/canjear', function(req, res, next) {
     }).catch((error) => res.status(400).send(error))
 });
 
+/* GET Bolsa page. */
+router.get('/bolsas', function(req, res, next) {
+  res.render('bolsas', { title: 'Bolsas de Puntos' });
+});
+
 /* Clientes */
 router.get('/api/cliente',clienteController.list);
 router.get('/api/cliente/:id',clienteController.getById);

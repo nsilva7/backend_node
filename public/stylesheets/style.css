@@ -39,3 +39,7 @@ label{
   float: right;
   margin-top: 10px;
 }
+
+.container {
+  background: #fff;
+}
