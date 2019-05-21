@@ -53,28 +53,28 @@ module.exports = {
     },
     
     update (req, res) {
-         return Cliente.findByPk(req.params.id,{})
+         return Cliente.findByPk(req.body.id,{})
             .then((cliente) => {
                 if (!cliente) {
                     return res.status(404).send(
                         {message:'Cliente no encontrado'}
                         );
                 }
-                if(req.params.nombre)
+                if(req.body.nombre)
                     cliente.nombre = req.params.nombre;
-                if(req.params.apellido)
+                if(req.body.apellido)
                     cliente.apellido = req.params.apellido;
-                if(req.params.nro_documento)
+                if(req.body.nro_documento)
                     cliente.nro_documento = req.params.nro_documento;
-                if(req.params.tipo_documento)
+                if(req.body.tipo_documento)
                     cliente.tipo_documento = req.params.tipo_documento;
-                if(req.params.nacionalidad)
+                if(req.body.nacionalidad)
                     cliente.nacionalidad = req.params.nacionalidad;
-                if(req.params.email)
+                if(req.body.email)
                     cliente.email = req.params.email;
-                if(req.params.telefono)
+                if(req.body.telefono)
                     cliente.telefono = req.params.telefono;
-                if(req.params.fecha_nacimiento)
+                if(req.body.fecha_nacimiento)
                     cliente.fecha_nacimiento = req.params.fecha_nacimiento;
              
                 cliente.save();
