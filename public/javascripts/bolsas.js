@@ -1,4 +1,10 @@
 $(document).ready(function(){
+  $("#cliente-select").on('change', function(){
+    if($(this).val() == 0)
+      $("#cliente").val('')
+    else
+      $("#cliente").val($(this).val())
+  })
     var dataSet = []
     var datatable = $('#tabla-bolsas').DataTable( {
         data: dataSet,
@@ -59,5 +65,7 @@ $(document).ready(function(){
           });
 
     })
-    
+
+    $("#btn-consultar").click();
+
 })

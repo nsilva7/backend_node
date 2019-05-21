@@ -6,7 +6,11 @@ block content
     .row
       .col-3
         label Buscar:
-        input(id="cliente",type="number", placeholder="Id del cliente",class="form-control")
+        select(class="form-control margin-bottom" id="cliente-select")
+          option(value="0", selected) --
+          each cliente in clientes
+            option(value=cliente.id) #{cliente.nombre}
+        input(id="cliente",type="hidden", placeholder="Id del cliente",class="form-control")
       .col-3
         label Vigencia:
         select(id="vigencia",name="vigencia",class="form-control")
@@ -17,7 +21,7 @@ block content
         label Vencimiento en:
         input(id="dias",type="number", placeholder="días",class="form-control")
       .col-3
-        button(id="btn-consultar", class="btn btn-default" style="position:absolute;bottom:0") Consultar
+        button(id="btn-consultar", class="btn btn-default pull-right" style="margin-top: 25px;") Consultar
     br
     table(id="tabla-bolsas")
   script(src="/javascripts/bolsas.js")

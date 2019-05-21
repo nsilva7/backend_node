@@ -43,3 +43,21 @@ label{
 .container {
   background: #fff;
 }
+
+.main-container{
+  margin-top: 10%;
+  background-color: #fff;
+  padding: 50px;
+}
+
+.main-container .col-4{
+  text-align: center;
+}
+
+.main-container a{
+  padding: 30px 60px;
+}
+
+h1{
+  text-align: center;
+}

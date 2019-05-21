@@ -25,7 +25,10 @@ router.get('/canjear', function(req, res, next) {
 
 /* GET Bolsa page. */
 router.get('/bolsas', function(req, res, next) {
-  res.render('bolsas', { title: 'Bolsas de Puntos' });
+  Cliente.findAll().then((clientes) => {
+    res.render('bolsas', { title: 'Bolsas de Puntos', clientes: clientes });
+
+  })
 });
 
 /* Clientes */

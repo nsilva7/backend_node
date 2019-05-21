@@ -1,5 +1,12 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  h1 Sistema de Fidelización de Clientes
+  .main-container
+    .row
+      .col-4
+        a(href="http://localhost:3000/canjear" class="btn btn-default") Canjear Premios
+      .col-4
+        a(href="http://localhost:3000/bolsas" class="btn btn-default") Informe de Bolsa de Puntos
+      .col-4
+        a(href="http://localhost:3000/canjear" class="btn btn-default") Informe de Uso de Puntos
