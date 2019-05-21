@@ -45,4 +45,23 @@ module.exports = {
                     .catch( (error) => res.status(400).send(error) )
             });
     },
+    
+    update(req,res) {
+       return Canje.findByPk(req.body.id,{})
+          .then((canje) => {
+              if (!canje) 
+                  return res.status(404).send({message:'Canje no encontrado'});
+              
+               if(req.body.descripcion)
+                    canje.descripcion = req.params.descripcion;
+                if(req.body.puntos_requeridos)
+                    canje.puntos_requeridos = req.params.puntos_requeridos;
+             
+                canje.save();
+              return res.status(200).send('Canje actualizado');
+          })
+          .catch((error) =>
+              res.status(400).send(error)
+          );
+    },
 }
