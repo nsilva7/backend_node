@@ -44,6 +44,7 @@ router.get('/bolsas', function(req, res, next) {
 /* Clientes */
 router.get('/api/cliente',clienteController.list);
 router.get('/api/cliente/:id',clienteController.getById);
+router.put('/api/cliente/:id',clienteController.update);
 router.post('/api/cliente',clienteController.create);
 router.delete('/api/cliente/:id',clienteController.delete);
 
