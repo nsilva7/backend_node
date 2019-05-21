@@ -44,7 +44,7 @@ module.exports = {
             order: [['fecha_asignacion', 'ASC']]
           }).then(function (bolsas) {
             if(bolsas.reduce(getSum, 0) < canje.puntos_requeridos)
-              return res.status(200).send({message:"No tiene suficientes puntos"})
+              return res.status(200).send({message:"No tiene suficientes puntos", tittle: 'Error'})
             return Uso.create({
                 id_cliente: req.body.id_cliente,
                 puntaje_utilizado: canje.puntos_requeridos,
@@ -74,7 +74,7 @@ module.exports = {
                     break;
                 }
                 sendEmail(cliente, canje)
-                return res.status(200).send({message:"Puntos usados correctamente",uso:uso})
+                return res.status(200).send({message:"Puntos usados correctamente", tittle: 'Operación Exitosa'})
               }).catch((error) => res.status(400).send(error))
             }).catch((error) => res.status(400).send({message: 'No se encontron bolsas', error:error}))
           }).catch((error) => {console.log(error); res.status(400).send({message: 'No se encontró el canje', error:error})})

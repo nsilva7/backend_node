@@ -1,8 +1,41 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: #dedede;
 }
 
 a {
   color: #00B7FF;
+}
+
+.center-box{
+  width: 40%;
+  background-color: #fff;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 10px;
+  padding: 30px;
+}
+
+.margin-bottom{
+  margin-bottom: 20px;
+}
+
+label{
+  font-weight: 600;
+}
+
+.btn-default{
+  background-color: #dedede;
+}
+
+.btn-default:hover{
+  background-color: #a5a5a5;
+}
+
+.pull-right{
+  float: right;
+  margin-top: 10px;
 }

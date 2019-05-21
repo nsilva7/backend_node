@@ -6,9 +6,21 @@ const reglaController = require('../controllers').reglaController;
 const vencimientoController = require('../controllers').vencimientoController;
 const bolsaController = require('../controllers').bolsaController;
 const usoController = require('../controllers').usoController;
+const Cliente = require('../models').Cliente;
+const Canje = require('../models').Canje;
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
+});
+
+router.get('/canjear', function(req, res, next) {
+  Cliente.findAll()
+    .then((clientes) => {
+      Canje.findAll()
+        .then((canjes) => {
+          res.render('canjear', { clientes: clientes, canjes: canjes});
+        })
+    }).catch((error) => res.status(400).send(error))
 });
 
 /* Clientes */

@@ -1,0 +1,19 @@
+extends layout
+block scripts
+  script(src="javascripts/canjear.js")
+block content
+  .center-box
+    label(for="id_cliente") Cliente
+    select(class="form-control margin-bottom" id="cliente-select")
+      option(value="0", selected) --
+      each cliente in clientes
+        option(value=cliente.id) #{cliente.nombre}
+    label(for="id_canje") Canje
+    select(class="form-control margin-bottom" id="canje-select")
+      option(value="0", selected) --
+      each canje in canjes
+        option(value=canje.id) #{canje.descripcion}
+
+    input(type="hidden" id="id_cliente" value="0")
+    input(type="hidden" id="id_canje" value="0")
+    button(class="btn btn-default pull-right", id="submit") Aceptar
