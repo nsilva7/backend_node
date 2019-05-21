@@ -27,8 +27,8 @@ module.exports = {
             query.dias = `"Bolsa"."fecha_caducidad" = '${caducidad.toISOString().slice(0,10)}'`
         }
         
-        sequelize.query(`SELECT "id", "fecha_asignacion", "fecha_caducidad", "puntaje_asignado", "puntaje_utilizado", "saldo", "monto_operacion", "id_cliente" FROM "Bolsas" AS "Bolsa" WHERE ${req.query.vigencia?query.vigencia:true} AND ${req.query.dias?query.dias:true} AND ${req.query.cliente?query.cliente:true}`).then(([results, metadata]) => {
-          return res.status(200).send(results);
+        sequelize.query(`SELECT "Bolsa"."id", "fecha_asignacion", "fecha_caducidad", "puntaje_asignado", "puntaje_utilizado", "saldo", "monto_operacion", CONCAT("nombre",' ',"apellido") AS "cliente" FROM "Bolsas" AS "Bolsa" INNER JOIN "Clientes" ON "Clientes"."id" = "Bolsa"."id_cliente" WHERE ${req.query.vigencia?query.vigencia:true} AND ${req.query.dias?query.dias:true} AND ${req.query.cliente?query.cliente:true}`).then(([results, metadata]) => {
+            return res.status(200).send(results);
           }).catch((error) =>
           res.status(400).send(error)
       );

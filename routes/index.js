@@ -35,10 +35,10 @@ router.get('/uso_de_puntos', function(req, res, next) {
 
 /* GET Bolsa page. */
 router.get('/bolsas', function(req, res, next) {
-  Cliente.findAll().then((clientes) => {
-    res.render('bolsas', { title: 'Bolsas de Puntos', clientes: clientes });
-
-  })
+  Cliente.findAll()
+    .then((clientes) => {
+      res.render('bolsas', { title: 'Bolsas de Puntos',clientes:clientes });
+    }).catch((error) => res.status(400).send(error))
 });
 
 /* Clientes */

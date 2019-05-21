@@ -55,7 +55,7 @@ $(document).ready(function(){
             success: function(data) {
                 dataSet = []
                for(let info of data) {
-                   let row = [info.id,info.fecha_asignacion,info.fecha_caducidad,info.puntaje_asignado,info.puntaje_utilizado,info.saldo,info.monto_operacion,info.id_cliente]
+                   let row = [info.id,info.fecha_asignacion,info.fecha_caducidad,info.puntaje_asignado,info.puntaje_utilizado,info.saldo,info.monto_operacion,info.cliente]
                    dataSet.push(row);
                }
                datatable.clear();

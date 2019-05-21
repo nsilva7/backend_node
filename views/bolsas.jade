@@ -5,12 +5,11 @@ block content
     h1 #{title}
     .row
       .col-3
-        label Buscar:
-        select(class="form-control margin-bottom" id="cliente-select")
-          option(value="0", selected) --
-          each cliente in clientes
-            option(value=cliente.id) #{cliente.nombre}
-        input(id="cliente",type="hidden", placeholder="Id del cliente",class="form-control")
+        label(for="id_cliente") Cliente
+        select(class="form-control margin-bottom" id="cliente")
+          option(value="", selected) --
+            each cliente in clientes
+              option(value=cliente.id) #{cliente.nombre} #{cliente.apellido} 
       .col-3
         label Vigencia:
         select(id="vigencia",name="vigencia",class="form-control")
