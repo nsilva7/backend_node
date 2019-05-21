@@ -33,6 +33,27 @@ module.exports = {
                 }).then ((regla) => res.status(200).send({message:"Regla creada con exito",regla:regla}))
             .catch((error) => res.status(400).send(error));
     },
+    
+    update (req,res) {
+        return Regla.findByPk(req.body.id,{})
+            .then((regla) => {
+                if (!regla) 
+                    return res.status(404).send({message:'Regla no encontrado'});
+                
+                if(req.body.limite_inferior)
+                    regla.limite_inferior = req.params.limite_inferior;
+                if(req.body.limite_superior)
+                    regla.limite_superior = req.params.limite_superior;
+                if(req.body.monto)
+                    regla.monto = req.params.monto;
+             
+                regla.save();
+                return res.status(200).send('Regla actualizada');
+            })
+            .catch((error) =>
+                res.status(400).send(error)
+            );
+    },
 
     delete (req, res) {
         return Regla.findByPk(req.params.id)
