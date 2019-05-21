@@ -23,6 +23,16 @@ router.get('/canjear', function(req, res, next) {
     }).catch((error) => res.status(400).send(error))
 });
 
+router.get('/uso_de_puntos', function(req, res, next) {
+       Cliente.findAll()
+    .then((clientes) => {
+      Canje.findAll()
+        .then((canjes) => {
+          res.render('uso', { clientes: clientes, canjes: canjes});
+        })
+    }).catch((error) => res.status(400).send(error))
+});
+
 /* GET Bolsa page. */
 router.get('/bolsas', function(req, res, next) {
   Cliente.findAll().then((clientes) => {
